@@ -1,13 +1,15 @@
-<table>
+@vite(['resources/css/app.css',
+'resources/js/app.js'])
+<table class="border-spacing-px border-collapse">
     <tr><th>Title</th><th>Mark</th><th>Date</th><th>Student_id</th></tr>
     @foreach($successes as $success)
         <tr>
-            <td>{{$success->title}}</td>
-            <td>{{$success->mark}}</td>
-            <td>{{$success->date}}</td>
-            <td>{{$success->student_id}}</td>
-            <td><a href="{{route('successes.edit',$success->id)}}">Edit</a></td>
-            <td>
+            <td class="ml-2">{{$success->title}}</td>
+            <td class="ml-2">{{$success->mark}}</td>
+            <td class="ml-2">{{$success->date}}</td>
+            <td class="ml-2">{{$success->student_id}}</td>
+            <td class="ml-2"><a href="{{route('successes.edit',$success->id)}}">Edit</a></td>
+            <td class="ml-2">
                 <form action="{{route('successes.destroy',$success->id)}}" method="post">
                     @csrf
                     {{ method_field('DELETE') }}

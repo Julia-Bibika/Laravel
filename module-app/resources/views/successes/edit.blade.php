@@ -16,7 +16,7 @@
         <option value="0">Please select station</option>
         @foreach($student_list as $student)
             <option
-                @if($student->id == $success->$student_id)
+                @if($student->id == $success->student_id)
                     selected
                 @endif
                 value="{{$student->id}}"
