@@ -2,7 +2,7 @@
 , 'resources/js/app.js'])
 <div class="w-1/4 bg-amber-100">
 <form action="{{route('stations.update',$station)}}" method="post">
-    @include ('fuels.errors')
+    @include ('stations.errors')
     @csrf
     {{ method_field('PUT') }}
     <div class="p-0.5">

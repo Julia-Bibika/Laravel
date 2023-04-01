@@ -2,7 +2,7 @@
 , 'resources/js/app.js'])
 <div class="w-1/4 bg-amber-100">
 <form class="flex-col" action="{{route('stations.store')}}" method="post">
-    @include ('fuels.errors')
+    @include ('stations.errors')
     @csrf
     <div class="p-0.5">
     <label for="title">Title</label>
