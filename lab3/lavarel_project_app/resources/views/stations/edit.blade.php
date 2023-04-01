@@ -8,16 +8,31 @@
     <div class="p-0.5">
     <label for="title">Title</label>
     <input name = "title" value="{{$station->title}}"/>
+        @error('title')
+        <div>
+            {{$message}}
+        </div>
+        @enderror
     </div>
     <br/>
     <div class="p-0.5">
     <label for="owner">Owner</label>
     <input name = "owner" value="{{$station->owner}}"/>
+        @error('owner')
+        <div>
+            {{$message}}
+        </div>
+        @enderror
     </div>
     <br/>
     <div class="p-0.5">
     <label for="address">Address</label>
     <input name = "address" value="{{$station->address}}"/>
+        @error('address')
+        <div>
+            {{$message}}
+        </div>
+        @enderror
     </div>
     <br/>
     <br/>
