@@ -13,7 +13,6 @@ class StationPolicy
      */
     public function viewAny(?User $user): bool
     {
-
         return true;
     }
 
@@ -34,19 +33,27 @@ class StationPolicy
         {
             return false;
         }
+        if($user->role == "superadmin")
+        {
+          return true;
+        }
         return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(?User $user, Station $station): bool
+    public function update(User $user, Station $station): bool
     {
-        if($user === null)
+        if($user->id == $station->creator_user_id)
         {
-            return false;
+            return true;
         }
-        return true;
+        if ($user->role == "superadmin" or $user->role == "editor")
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -54,11 +61,15 @@ class StationPolicy
      */
     public function delete(?User $user, Station $station): bool
     {
-        if($user === null)
+        if ($user->role == "superadmin")
         {
-            return false;
+            return true;
         }
-        return true;
+        if($user->id == $station->creator_user_id)
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -66,6 +77,10 @@ class StationPolicy
      */
     public function restore(User $user, Station $station): bool
     {
+        if ($user->role == "superadmin")
+        {
+            return true;
+        }
         return false;
     }
 
@@ -74,6 +89,10 @@ class StationPolicy
      */
     public function forceDelete(User $user, Station $station): bool
     {
+        if ($user->role == "superadmin")
+        {
+            return true;
+        }
         return false;
     }
 }

@@ -16,7 +16,7 @@ class FuelController extends Controller
      * Display a listing of the resource.
      */
     public function __construct(){
-        $this->authorizeResource(Fuel::class,'fuels');
+        $this->authorizeResource(Fuel::class);
     }
     public function index()
     {
@@ -61,20 +61,18 @@ class FuelController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Fuel $fuel)
     {
         $station_list = Station::all();
-        $fuel = Fuel::find($id);
         return view('fuels.edit',['fuel'=>$fuel,'station_list'=>$station_list]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(FuelRequest $request, string $id):RedirectResponse
+    public function update(FuelRequest $request, Fuel $fuel):RedirectResponse
     {
-        $validated = $request->validate();
-        $fuel = Fuel::find($id);
+        $validated = $request->validated();
         $fuel->update([
             'brand' => $validated['brand'],
             'amount' => $validated['amount'],
@@ -88,9 +86,9 @@ class FuelController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(Fuel $fuel): RedirectResponse
     {
-        Fuel::destroy($id);
+        $fuel->delete();
         return \redirect(route('fuels.index'));
     }
 }

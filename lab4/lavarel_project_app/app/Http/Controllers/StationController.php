@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\Station;
+use Illuminate\Support\Facades\Auth;
 
 class StationController extends Controller
 {
@@ -43,6 +44,7 @@ class StationController extends Controller
             'title' => $validated['title'],
             'owner' => $validated['owner'],
             'address' =>$validated['address'],
+            'creator_user_id' => Auth::user()->id
         ]);
         return \redirect(route('stations.index'));
     }
@@ -58,19 +60,17 @@ class StationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Station $station)
     {
-        $station = Station::find($id);
         return view('stations.edit',['station'=>$station]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(StationRequest $request, string $id): RedirectResponse
+    public function update(StationRequest $request, Station $station): RedirectResponse
     {
         $validated = $request->validated();
-        $station = Station::find($id);
         $station->update([
             'title' => $validated['title'],
             'owner' => $validated['owner'],
@@ -83,9 +83,9 @@ class StationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(Station $station): RedirectResponse
     {
-        Station::destroy($id);
+        $station->delete();
         return \redirect(route('stations.index'));
     }
 }

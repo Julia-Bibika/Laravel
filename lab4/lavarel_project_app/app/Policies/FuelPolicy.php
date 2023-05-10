@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Fuel;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
@@ -27,48 +28,61 @@ class FuelPolicy
     /**
      * Determine whether the user can create models.
      */
-    public function create(User $user): bool
+    public function create(?User $user): bool
     {
-
-//        if($user->role == "superadmin")
-//        {
-//            return true;
-//        }
+        if($user === null)
+        {
+            return false;
+        }
+        if($user->role == "superadmin")
+        {
+            return true;
+        }
         return true;
     }
 
     /**
      * Determine whether the user can update the model.
      */
-    public function update(?User $user): bool
+    public function update(?User $user,Fuel $fuel): bool
     {
-//        dd($user);
-//        if($user->id)
-//        {
-//            return true;
-//        }
-        return true;
+        if($user->id == $fuel->creator_user_id)
+        {
+            return true;
+        }
+        elseif ($user->role == "superadmin" or $user->role == "editor")
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user): bool
+    public function delete(User $user,Fuel $fuel): bool
     {
-//        dd($user, $fuel);
-//        if($user->id == $fuel->creator_user_id)
-//        {
-//            return true;
-//        }
-        return true;
+        if($user->id == $fuel->creator_user_id)
+        {
+            return true;
+        }
+        if ($user->role == "superadmin")
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user: bool
+    public function restore(User $user): bool
     {
-        return true;
+        if ($user->role == "superadmin")
+        {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -76,6 +90,10 @@ class FuelPolicy
      */
     public function forceDelete(User $user): bool
     {
-        return true;
+        if ($user->role == "superadmin")
+        {
+            return true;
+        }
+        return false;
     }
 }
