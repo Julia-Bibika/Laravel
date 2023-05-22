@@ -38,12 +38,11 @@ class GoodController extends Controller
     public function store(Request $request)
     {
         $good = Good::create([
-            'title' => $request->input('brand'),
-            'owner' => $request->input('amount'),
+            'title' => $request->input('title'),
+            'owner' => $request->input('owner'),
             'price' => $request->input('price'),
             'date' => $request->input('date'),
             'owner_id' => $request->input('owner_id'),
-            'creator_user_id' => Auth::user()->id
         ]);
         return \redirect(route('goods.index'));
     }

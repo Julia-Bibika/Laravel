@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Owner;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class OwnerController extends Controller
 {
@@ -33,7 +34,12 @@ class OwnerController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $owner = Owner::create([
+            'brand' => $request->input('brand'),
+            'country' => $request->input('country'),
+            'contact_phone' => $request->input('contact_phone'),
+            'email' => $request->input('email'),
+        ]);
     }
 
     /**
@@ -47,24 +53,31 @@ class OwnerController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Owner $owner)
     {
-        //
+        return view('owners.edit',['owner'=>$owner]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Owner $owner)
     {
-        //
+        $owner->update([
+            'brand' => $request->input('brand'),
+            'country' => $request->input('country'),
+            'contact_phone' => $request->input('contact_phone'),
+            'email' => $request->input('email'),
+        ]);
+        return \redirect(route('owners.index'));
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Owner $owner)
     {
-        //
+        $owner->delete();
+        return \redirect(route('owners.index'));
     }
 }
