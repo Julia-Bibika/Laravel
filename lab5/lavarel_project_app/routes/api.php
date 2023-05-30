@@ -34,7 +34,7 @@ Route::get('stations', function () {
     return StationResource::collection(Station::paginate());
 })->middleware('auth:api');
 Route::middleware('auth:api')->group(function () {
-    Route::get('/employee/{id}', function (string $id) {
+    Route::get('/fuels/{id}', function (string $id) {
         return new FuelResource(Fuel::findOrFail($id));
     });
 });
